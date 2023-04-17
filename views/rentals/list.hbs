@@ -1,0 +1,40 @@
+<div class="container">
+    <h1>Rentals</h1>
+    {{#if isclerk}}
+    <a class="btn btn-primary btn-block" href="/rentals/add">Add New Rental</a>
+    {{/if}}
+
+    {{#each rentals}}
+    <h3>{{this._id}}</h3>
+    <div class="row">
+        {{#each this.cities}}
+        <div class="col col-3">
+            <div class="card" style="width: 18rem;">
+                <form onsubmit="return confirm('Do you want to remove?')" action="/rentals/remove/{{_id}}">
+                    <img src="./{{imageUrl}}" class="card-img-top" alt="..." style="height: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{heading}}</h5>
+                        <p class="card-text">{{description}}</p>
+                        <div class="row">
+                            <p class="card-text">{{numSleeps}} sleeps</p>
+                            <p class="card-text">{{numBedrooms}} bedrooms</p>
+                            <p class="card-text">{{city}}, {{province}}</p>
+                            <div class="col">
+                                {{#if ../../isclerk}}
+                                    <input class="btn btn-primary" type="submit" value="Remove">
+                                    <a class="btn btn-warning" href="rentals/edit/{{_id}}">Edit</a>
+                                {{ else }}
+                                    <a class="btn btn-warning" href="cart/add/{{_id}}">Rent</a>
+                                {{/if}}
+                            </div>
+                        </div>
+                        {{!-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        {{/each}}
+    </div>
+    {{/each}}
+</div>

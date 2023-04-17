@@ -1,0 +1,64 @@
+<div class="container">
+    <h1>Place Order</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Head line</th>
+                <th>Images</th>
+                <th>Price</th>
+                <th>City</th>
+                <th>Number Of Night</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        {{#each items}}
+        <tbody>
+            <tr>
+                <td>{{this.rentalid.headline}}</td>
+                <td>
+                    <img src="{{this.rentalid.imageUrl}}" style="width: 100px;" /?>
+                </td>
+                <td>{{this.rentalid.pricePerNight}}</td>
+                <td>{{this.rentalid.city}}</td>
+                <td style="width: 150px;" >
+                    <form method="post" action="/cart/edit" style="width:60px;display:inline">
+                        <div class="input-group mb-3">
+                            <input min="1" type="number" name="numOfNight"
+                                value={{this.numOfNight}} type="text" class="form-control" placeholder="">
+                            <input type="hidden" name="cartid" value={{./_id}} />
+                            <input class="btn btn-sm btn-primary" type="submit" value="Edit">
+                        </div>
+                    </form>
+                </td>
+                <td>
+                    <form method="get" onsubmit="return confirm('Do you want to remove?')"
+                        action="/cart/remove/{{./_id}}" style="width:60px;display:inline">
+                        <input class="btn btn-sm btn-danger" type="submit" value="Delete">
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+        {{/each}}
+    </table>
+    <table style="width: 200px; margin-left: auto;">
+        <tr>
+            <td style="text-align: right;">Sub Total</td>
+            <td style="text-align: right;">{{total}}</td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">Vat</td>
+            <td style="text-align: right;">{{vat}}</td>
+        </tr>
+        <tr style="border-top: 1px solid #000;">
+            <td style="text-align: right;">Grand Total</td>
+            <td style="text-align: right;">{{grandTotal}}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <a class="btn btn-primary mt-2 mb-2" href="cart/placeorder">Place Order</a>
+            </td>
+        </tr>
+    </table>
+</div>

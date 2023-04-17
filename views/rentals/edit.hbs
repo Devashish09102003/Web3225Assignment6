@@ -1,0 +1,158 @@
+<style type="text/css">
+.rentaledit p {
+    color: red;
+}
+</style>
+<div class="container">
+    <h1>
+        Edit New Rental
+    </h1>
+
+    <form method="post" enctype="multipart/form-data" class="rentaledit">
+
+        <table>
+            <tr>
+                <td>
+                    <input class="form-control" type="text" placeholder="headline" name="headline"
+                        value={{user.headline}}>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p>{{error.headline.msg}}</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input class="form-control" type="number" placeholder="numSleeps" name="numSleeps"
+                        value={{user.numSleeps}}>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p>{{error.numSleeps.msg}}</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input class="form-control" type="number" placeholder="numBedrooms" name="numBedrooms"
+                        value={{user.numBedrooms}}>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p>{{error.numBedrooms.msg}}</p>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <input class="form-control" type="number" placeholder="numBathrooms" name="numBathrooms"
+                        value={{user.numBathrooms}}>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p>{{error.numBathrooms.msg}}</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input class="form-control" type="number" placeholder="pricePerNight" name="pricePerNight"
+                        value={{user.pricePerNight}}>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p>{{error.pricePerNight.msg}}</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input class="form-control" type="text" placeholder="city" name="city" value={{user.city}}>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p>{{error.city.msg}}</p>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <input class="form-control" type="text" placeholder="province" name="province"
+                        value={{user.province}}>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p>{{error.province.msg}}</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <img src="{{user.imageUrl}}" width="200px" />
+                    <input class="form-control" type="hidden" name="imageUrl" value={{user.imageUrl}} />
+                    <input class="form-control" type="file" name="imageUrlNew" />
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input class="form-control" type="hidden" name="_id" value={{user._id}} />
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <p>{{error.imageUrl.msg}}</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Featured Rental
+                    {{#if user.featuredRental }}
+                    <input type="checkbox" checked placeholder="featuredRental" name="featuredRental">
+                    {{ else }}
+                    <input type="checkbox" placeholder="featuredRental" name="featuredRental">
+                    {{/if}}
+
+
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p>{{error.featuredRental.msg}}</p>
+                </td>
+            </tr>
+
+        </table>
+
+
+        <input class="btn btn-primary" type="submit" name="submit" value="Submit">
+        <a class="btn btn-warning" href="rentals/">All Rentals</a>
+        </br>
+        </br>
+        </br>
+        {{msg}}
+
+    </form>
+
+</div>

@@ -9,40 +9,37 @@
 </head>
 
 <style>
-
-  .main{
-    height: 400px;
+  .main {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 50px;
     padding-top: 50px;
-    background-color:rgb(5, 157, 233) ;
- 
-    
+    background-color: rgb(5, 157, 233);
+
+
   }
 
-  form{
+  form {
     display: flex;
     justify-content: center;
-    align-items:center ;
+    align-items: center;
     flex-direction: column;
     gap: 40px;
   }
 
-  input{
+  input {
     padding: 10px;
     width: 600px;
   }
 
-  p{
+  p {
     color: red;
     background-color: blanchedalmond;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  
+
   }
-    
 </style>
 
 
@@ -59,38 +56,46 @@
       <table>
         <tr>
           <td>
-<input type="text"  placeholder="Username" name="username" value={{user.username}}>
+            <input type="text" placeholder="Username" name="username" value={{user.username}}>
           </td>
 
-       
-        </tr>
 
-        <tr>
-             <td>
- <p>{{error.username.msg}}</p> 
-          </td>
-        </tr>
-
-        <tr><td><br></td></tr>
-
-        <tr>
-          <td>
- <input type="password" placeholder="password" name="password"   autocomplete="off">
-          </td>
-
-          
         </tr>
 
         <tr>
           <td>
-            <p>{{error.password.msg}}</p> 
+            <p>{{error.username.msg}}</p>
+          </td>
+        </tr>
+
+        <tr>
+          <td><br></td>
+        </tr>
+
+        <tr>
+          <td>
+            <input type="password" placeholder="password" name="password" autocomplete="off">
+          </td>
+
+
+        </tr>
+
+        <tr>
+          <td>
+            <p>{{error.password.msg}}</p>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <p>{{error}}</p>
           </td>
         </tr>
       </table>
-      
 
-      
-<input type="submit" name="submit" value="submit">
+
+
+      <input type="submit" name="submit" value="submit" class="mb-5">
 
 
     </form>
@@ -101,6 +106,6 @@
 
 
 
-  
+
 
 </html>

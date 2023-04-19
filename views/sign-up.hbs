@@ -1,16 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-
 <style>
-
-  .main{
+  .main {
     height: 700px;
     display: flex;
     justify-content: center;
@@ -18,133 +7,134 @@
     flex-direction: column;
     gap: 50px;
     padding-top: 50px;
-    background-color:rgb(5, 157, 233) ;
+    background-color: rgb(5, 157, 233);
     border: solid 1px black;
- 
-    
+
+
   }
 
-  form{
+  form {
     display: flex;
     justify-content: center;
-    align-items:center ;
+    align-items: center;
     flex-direction: column;
     gap: 40px;
   }
 
-  input{
+  input {
     padding: 10px;
     width: 600px;
   }
 
-  p{
+  p {
     color: red;
-    
+
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    
+
   }
-    
 </style>
 
-
-
-<body>
-
-  <div class="main">
-    <h1>
-      Sign up Here
-    </h1>
+  <div class="container">
+    <h1> Sign up Here </h1>
 
     <form method="post">
-
       <table>
-
         {{!-- first name --}}
         <tr>
           <td>
-<input type="text"  placeholder="firstname" name="firstname" value={{user.firstname}}>
+            <input type="text" placeholder="firstname" name="name" value={{user.name}}>
           </td>
-
-       
         </tr>
 
         <tr>
-             <td>
- <p>{{error.firstname.msg}}</p> 
+          <td>
+            <p>{{error.name.msg}}</p>
           </td>
         </tr>
 
-        <tr><td><br></td></tr>
+        <tr>
+          <td><br></td>
+        </tr>
 
 
         {{!-- last name --}}
 
-            <tr>
+        <tr>
           <td>
-<input type="text"  placeholder="lastname" name="lastname" value={{user.lastname}}>
+            <input type="text" placeholder="lastname" name="lname" value={{user.lname}}>
           </td>
-
-       
         </tr>
 
         <tr>
-             <td>
- <p>{{error.lastname.msg}}</p> 
+          <td>
+            <p>{{error.lname.msg}}</p>
           </td>
         </tr>
 
-        <tr><td><br></td></tr>
+        <tr>
+          <td><br></td>
+        </tr>
 
         {{!-- email --}}
 
-           <tr>
+        <tr>
           <td>
-<input type="text"  placeholder="email" name="email" value={{user.email}}>
+            <input type="text" placeholder="email" name="email" value={{user.email}}>
           </td>
-
-       
         </tr>
 
         <tr>
-             <td>
- <p>{{error.email.msg}}</p> 
+          <td>
+            <p>{{error.email.msg}}</p>
           </td>
         </tr>
 
-        <tr><td><br></td></tr>
+        <tr>
+          <td><br></td>
+        </tr>
 
         {{!-- password --}}
 
         <tr>
-
-
           <td>
- <input type="password" placeholder="password" name="password"  autocomplete="off">
+            <input type="password" placeholder="password" name="password" autocomplete="off">
           </td>
-
-          
         </tr>
 
         <tr>
           <td>
-            <p>{{error.password.msg}}</p> 
+            <p>{{error.password.msg}}</p>
+          </td>
+        </tr>
+
+
+        <tr>
+          <td>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="role" id="customer" value="customer" checked>
+              <label class="form-check-label" for="customer">
+                &nbsp;Customer
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="role" id="clerk" value="clerk">
+              <label class="form-check-label" for="clerk">
+                &nbsp;Clerk
+              </label>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <p>{{errormessage}}</p>
           </td>
         </tr>
       </table>
-      
 
-      
-<input type="submit" name="submit" value="submit">
+      <input type="submit" name="submit" value="Submit" class="mb-5">
 
 
     </form>
 
   </div>
-
-</body>
-
-
-
-  
-
-</html>

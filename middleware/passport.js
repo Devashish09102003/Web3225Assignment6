@@ -8,6 +8,7 @@ passport.use(new strategy({ session: false }, async (email, password, callback) 
     const user = await User.findOne({ email: email, is_active: true });
     if (!user) {
         callback(null, "User not found");
+        return;
     }
 
     if ((await bcrypt.compare(password, user.password))) {

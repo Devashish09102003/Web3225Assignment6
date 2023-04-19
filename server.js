@@ -26,7 +26,7 @@ const path = require('path')
 var passport = require('passport');
 
 const connectDB = require('./config/db')
-const { loginUser } = require('./controllers/userController');
+const { loginUser, registerUser, logoutUser } = require('./controllers/userController');
 const { addRental, listRentals, removeRental, editRental, getRentalById, listRentalsHome } = require('./controllers/rentalController');
 const { addCart, editCart, removeCartItem, listCart, placeOrder } = require('./controllers/cartController');
 connectDB();
@@ -76,73 +76,26 @@ app.get("/sign-up", (req, res) => {
 });
 
 app.post('/sign-up', urlencodedParser, [
-
-    check('firstname', '**first name shoud have atleast 4 character')
+    check('name', '**first name shoud have atleast 4 character')
         .exists().trim().isLength({ min: 4 }),
-    check('lastname', '**last name should have atleast 4 character')
+    check('lname', '**last name should have atleast 4 character')
         .exists().trim().isLength({ min: 4 }),
     check('email', '**email must be in proper')
         .exists().trim().isEmail().normalizeEmail(),
-    check('password', '**password should have atleast 8 character')
-        .exists().trim().isLength({ min: 8 })
-
-],
-
-    function (req, res) {
-        const errors = validationResult(req);
-        console.log(errors.mapped());
-        if (!errors.isEmpty()) {
-            const user = matchedData(req);
-
-            res.render('sign-up', { error: errors.mapped(), user: user });
-
-        } else {
-            let gmail = req.body.email;
-
-
-            res.redirect('welcome')
-            console.log(req.body)
-            send();
-
-            async function send(req, res) {
-
-                let transporter = nodemailer.createTransport({
-                    host: "smtp.gmail.com",
-                    port: 587,
-                    secure: false,
-                    requireTLS: true,
-                    auth: {
-                        user: 'vishusalvi2008@gmail.com', // generated ethereal user
-                        pass: 'mjgxipdojahjzfni', // generated ethereal password
-                    },
-                });
-
-                const msg = {
-                    from: 'vishusalvi2008@gmail.com',
-                    to: gmail,
-                    subject: "successfully logined to our website",
-                    text: "hello dear, have you received the mail",
-                    html: "<h1>thanks for registration in dev truenorth marketplace</h1>"
-                }
-
-                transporter.sendMail(msg, function (error, info) {
-                    if (error) {
-                        console.log(error)
-                    }
-                    else {
-                        console.log("Email has been sent" + info.response)
-                    }
-                });
-
-            }
-        }
-
-
-    });
+    // check('password', '**password should have atleast 8 character')
+    //     .exists().trim().isLength({ min: 8 })
+    check("password", "**password should have atleast 8 character, one upper, one lower and one special char.")
+        .isLength({ min: 8 })
+        .matches(
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/,
+        )
+], registerUser);
 
 app.get("/log-in", (req, res) => {
     res.render("log-in");
 });
+
+app.get('/log-out', logoutUser)
 
 app.post('/log-in', urlencodedParser, [
     check('username', '**username must be in 8 character').trim().isLength({ min: 8 }),
@@ -170,7 +123,7 @@ app.get('/rentals/remove/:id', protect, removeRental);
 
 /* Cart */
 
-app.get('/addtocart', (req, res,next) => {
+app.get('/addtocart', (req, res, next) => {
     res.render('addtocart');
 });
 app.get('/cart', protect, listCart);

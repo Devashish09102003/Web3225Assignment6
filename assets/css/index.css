@@ -144,3 +144,10 @@ nav a:hover {
 a {
     text-decoration: none !important;
 }
+
+.hide,
+.logincls,
+.nologincls,
+.iscustomer {
+    display: none;
+}

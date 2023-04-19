@@ -7,22 +7,24 @@ const { resolveHostname } = require('nodemailer/lib/shared')
 const { check, validationResult } = require('express-validator');
 const { matchedData, sanitizeBody } = require('express-validator');
 const passport = require('../middleware/passport')
+const transporter = require('../middleware/mailMiddleware')
 //@desc Register New User
 //@route POST api/user
 //@access Public
 const registerUser = asyncHandler(async (req, res) => {
-    const { name, email, password, role, phoneNumber, is_active } = req.body
 
-    if (!name || !email || !password || !role) {
-        res.status(400)
-        throw new Error('Name, Email, Password and Role  fields are required!')
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.render('sign-up', { error: errors.mapped(), user: req.body });
+        return;
     }
+    const { name, lname, email, password, role, phoneNumber, is_active } = req.body
 
     //check if user exist
     const userExists = await User.findOne({ email })
     if (userExists) {
-        res.status(400)
-        throw new Error('User Already Exists!')
+        res.render('sign-up', { errormessage: 'User Already Exists!', user: req.body });
+        return;
     }
 
     //Hash password
@@ -32,6 +34,7 @@ const registerUser = asyncHandler(async (req, res) => {
     //create user
     const user = await User.create({
         name,
+        lname,
         email,
         role,
         phoneNumber,
@@ -40,19 +43,46 @@ const registerUser = asyncHandler(async (req, res) => {
     })
 
     if (user) {
-        res.status(201).json({
-            _id: user.id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-            phoneNumber: phoneNumber,
-            is_active: is_active,
-            token: generateToken(user.id),
-        })
+        try {
+            var mailOptions = {
+                from: process.env.Email_User,
+                to: user.email,
+                subject: 'Successfully logined to our website',
+                html: `<h1>Thanks for registration in dev truenorth marketplace</h1>`
+            }
+            let response = await new Promise((resolve, rejects) => {
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        console.log(error);
+                        rejects(error);
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                        resolve(info);
+                    }
+                });
+            });
+        } catch (error) {
+            console.log(error);
+        }
+
+        res.cookie('jwtoken', generateToken(user.id));
+        res.cookie('loggeduser', user);
+        res.cookie('loggedusername', user.name);
+        res.cookie('role', user.role);
+        res.redirect('/welcome');
+        // res.status(201).json({
+        //     _id: user.id,
+        //     name: user.name,
+        //     email: user.email,
+        //     role: user.role,
+        //     phoneNumber: phoneNumber,
+        //     is_active: is_active,
+        //     token: generateToken(user.id),
+        // })
     }
     else {
-        res.status(400)
-        throw new Error("Invalid user data!")
+        res.render('sign-up', { errormessage: "Invalid user data!", user: req.body });
+        return;
     }
 })
 
@@ -164,6 +194,8 @@ const loginUser = asyncHandler(async (req, res, next) => {
 
                     res.cookie('jwtoken', data.token);
                     res.cookie('loggeduser', data.user);
+                    res.cookie('loggedusername', data.user.name);
+                    res.cookie('role', data.user.role);
                     res.redirect('/welcome');
                 }
                 else {
@@ -175,6 +207,15 @@ const loginUser = asyncHandler(async (req, res, next) => {
     }
 })
 
+
+const logoutUser = (req, res, next) => {
+
+    res.clearCookie('jwtoken');
+    res.clearCookie('loggeduser');
+    res.clearCookie('loggedusername');
+    res.clearCookie('role');
+    res.render("log-in");
+}
 
 //@desc Get User Data
 //@route POST api/users/me
@@ -241,5 +282,6 @@ module.exports = {
     updateUser,
     changePassword,
     getManager,
-    getAllUser
+    getAllUser,
+    logoutUser
 }
